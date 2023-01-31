@@ -1,0 +1,170 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 2em;
+  height: 100vh;
+}
+
+.fader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  transition-property: opacity, visibility;
+
+  &__hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+
+  .field + .field {
+    margin-top: 1.8em;
+  }
+}
+
+.welcomeMessage {
+  color: oklch(100% 0 0);
+  font-size: 1.3em;
+  line-height: 1.5;
+  font-family: sans-serif;
+  text-align: center;
+
+  & + .form {
+    margin-top: 2em;
+  }
+}
+
+.field {
+  --border: 2px solid oklch(71.66% 0.07 240.5);
+  --border-color-focus: oklch(75.66% 0.37 240.5);
+  --border-radius: 3px;
+  transition: opacity 0.2s;
+  width: 100%;
+
+  &__disabled {
+    opacity: 0.5;
+  }
+
+  &_input {
+    transition: border-color 0.15s;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 0.4em 0.6em;
+    width: 100%;
+    font-size: 1.1em;
+    font-family: sans-serif;
+
+    &:focus {
+      outline: none;
+      border-color: var(--border-color-focus);
+    }
+
+    &__highlightInvalid:invalid {
+      border-color: oklch(62.8% 0.2 29.23);
+
+      &:focus {
+        border-color: oklch(62.8% 0.37 5.805);
+      }
+    }
+  }
+
+  &_inputLabel {
+    position: absolute;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: 0.3s ease;
+    transition-property: opacity, transform;
+    margin-top: -1.4em;
+    pointer-events: none;
+    color: oklch(100% 0 0);
+    line-height: 1;
+    font-family: monospace;
+    white-space: nowrap;
+  }
+
+  &_inputLabel + &_input {
+    &::placeholder {
+      transition: color 0.15s;
+    }
+  }
+
+  &_inputLabel + &_input:focus {
+    &::placeholder {
+      color: transparent;
+    }
+  }
+
+  &:has(&_input:focus) &_inputLabel,
+  &:has(&_input:not(:placeholder-shown)) &_inputLabel {
+    transform: none;
+    opacity: 1;
+  }
+
+  &_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background: oklch(100% 0 0);
+    padding: 0.4em 0.6em;
+    width: 100%;
+    font-size: 1em;
+    font-family: sans-serif;
+
+    &:focus {
+      outline: none;
+      border-color: var(--border-color-focus);
+    }
+
+    &_icon {
+      margin-right: 0.2em;
+    }
+  }
+
+  & + .errorAlert {
+    margin-top: 1em;
+  }
+}
+
+.successMessage {
+  width: 500px;
+  color: oklch(100% 0 0);
+  font-size: 1.2em;
+  line-height: 1.5;
+  font-family: sans-serif;
+}
+
+.errorAlert {
+  border-color: red;
+  min-height: calc(1.2 * 2em);
+  color: oklch(0.79 0.1 19.46);
+  font-size: 0.9em;
+  line-height: 1.2;
+  font-family: sans-serif;
+}
+
+.circularProgress {
+  animation: circularProgress 1s linear infinite;
+
+  @keyframes circularProgress {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

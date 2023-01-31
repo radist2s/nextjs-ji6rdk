@@ -1,76 +1,5 @@
 :root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
-
-  --tile-start-rgb: 239, 245, 249;
-  --tile-end-rgb: 228, 232, 233;
-  --tile-border: conic-gradient(
-    #00000080,
-    #00000040,
-    #00000030,
-    #00000020,
-    #00000010,
-    #00000010,
-    #00000080
-  );
-
-  --callout-rgb: 238, 240, 241;
-  --callout-border-rgb: 172, 175, 176;
-  --card-rgb: 180, 185, 188;
-  --card-border-rgb: 131, 134, 135;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
 }
 
 * {
@@ -79,29 +8,7 @@
   margin: 0;
 }
 
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='1440' preserveAspectRatio='none' viewBox='0 0 1440 1440'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1146%26quot%3b)' fill='none'%3e%3crect width='1440' height='1440' x='0' y='0' fill='rgba(21%2c 67%2c 96%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c509.328C128.356%2c529.65%2c253.954%2c631.028%2c374.767%2c583.148C495.547%2c535.282%2c543.441%2c391.006%2c597.106%2c272.689C650.653%2c154.632%2c707.041%2c29.22%2c683.861%2c-98.324C660.975%2c-224.251%2c574.862%2c-332.338%2c473.051%2c-409.901C381.466%2c-479.674%2c262.985%2c-492.938%2c148.605%2c-506.102C50.304%2c-517.415%2c-42.447%2c-488.086%2c-141.112%2c-480.583C-271.621%2c-470.658%2c-423.655%2c-537.758%2c-524.958%2c-454.879C-624.454%2c-373.479%2c-602.45%2c-216.487%2c-619.636%2c-89.09C-636.668%2c37.169%2c-686.755%2c174.012%2c-624.813%2c285.343C-563.349%2c395.815%2c-424.549%2c432.778%2c-305.546%2c475.439C-207.089%2c510.734%2c-103.305%2c492.972%2c0%2c509.328' fill='%2311364e'%3e%3c/path%3e%3cpath d='M1440 1984.9589999999998C1542.8 1988.056 1630.013 1923.363 1724.4270000000001 1882.576 1838.979 1833.089 2005.029 1835.151 2053.219 1720.048 2101.798 1604.0149999999999 1983.0819999999999 1486.251 1939.8020000000001 1368.139 1906.226 1276.51 1888.711 1180.229 1827.549 1104.187 1764.854 1026.24 1678.775 976.511 1589.12 932.144 1482.996 879.628 1370.767 784.346 1258.747 822.708 1146.007 861.316 1138.511 1021.1030000000001 1062.163 1112.6019999999999 987.881 1201.625 850.309 1239.182 818.262 1350.608 785.675 1463.909 830.622 1590.466 896.63 1688.149 958.153 1779.194 1069.943 1813.09 1166.377 1865.766 1255.491 1914.444 1338.504 1981.902 1440 1984.9589999999998' fill='%23195072'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1146'%3e%3crect width='1440' height='1440' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+  background-size: cover;
 }
