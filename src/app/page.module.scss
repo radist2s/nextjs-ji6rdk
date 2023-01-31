@@ -50,7 +50,7 @@
   --border: 2px solid oklch(71.66% 0.07 240.5);
   --border-color-focus: oklch(75.66% 0.37 240.5);
   --border-radius: 3px;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s;
   width: 100%;
 
   &__disabled {
@@ -131,6 +131,9 @@
 
     &_icon {
       margin-right: 0.2em;
+      margin-left: -1.25em;
+      width: 1.25em;
+      height: 1.25em;
     }
   }
 
