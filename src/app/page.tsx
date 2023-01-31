@@ -10,54 +10,32 @@ import {
   useCallback,
   useRef,
   useEffect,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+  useContext,
 } from "react";
+import useTransition from "react-transition-state";
 
-const withDebugInputValues = false;
+const withDebugInputValues = true;
 
 export default function Registration() {
   const [{ error, isLoading, data }, mutate] = useSubmitFormMutation();
   const isSuccess = !!data;
   const isInputDisabled = isLoading || isSuccess;
-  const [activeView, setActiveView] = useState<"form" | "success">("form");
-  const [isSuccessViewHidden, setIsSuccessViewHidden] = useState(true);
-
-  useEffect(() => {
-    if (activeView !== "success") return;
-    const frame = requestAnimationFrame(() => setIsSuccessViewHidden(false));
-    return () => cancelAnimationFrame(frame);
-  }, [activeView]);
-
-  const formFaderRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <main className={styles.main}>
-      {activeView === "success" && (
-        <div
-          className={classNames([
-            styles.fader,
-            isSuccessViewHidden && styles.fader__hidden,
-          ])}
-        >
+      <Fades targetFade={isSuccess ? "success" : "form"}>
+        <Fade name={"success"}>
           <p className={styles.successMessage} role="alert">
             Please check your email for a confirmation message after registering
             on the website. This message will verify your account and allow you
             to access all features. Thank you for registering!
           </p>
-        </div>
-      )}
-      {activeView === "form" && (
-        <div
-          ref={formFaderRef}
-          className={classNames([
-            styles.fader,
-            isSuccess && styles.fader__hidden,
-          ])}
-          onTransitionEnd={(event) => {
-            if (event.target !== formFaderRef.current) return;
-            if (event.propertyName !== "opacity") return;
-            if (isSuccess) setActiveView("success");
-          }}
-        >
+        </Fade>
+        <Fade name={"form"}>
           <p className={styles.welcomeMessage}>
             Welcome!
             <br />
@@ -70,8 +48,8 @@ export default function Registration() {
               event.preventDefault();
               if (isLoading) return;
               if (!(event.target instanceof HTMLFormElement)) return;
-              const formData = new FormData(event.target);
 
+              const formData = new FormData(event.target);
               mutate(Object.fromEntries(formData.entries()));
             }}
           >
@@ -155,8 +133,8 @@ export default function Registration() {
               {!!error && getErrorMessage(error)}
             </div>
           </form>
-        </div>
-      )}
+        </Fade>
+      </Fades>
     </main>
   );
 }
@@ -227,6 +205,78 @@ const Check = (props: ComponentProps<"svg">) => (
     <polyline points="20 6 9 17 4 12"></polyline>
   </svg>
 );
+
+const FadeContext = createContext<{
+  targetFade?: string;
+  currentFade?: string;
+  setMountedFade?: Dispatch<SetStateAction<string>>;
+}>({});
+
+const Fades = ({
+  children,
+  targetFade,
+}: {
+  children: ReactNode;
+  targetFade: string;
+}) => {
+  const [mountedFade, setMountedFade] = useState(targetFade);
+
+  return (
+    <FadeContext.Provider
+      value={{ targetFade, currentFade: mountedFade, setMountedFade }}
+    >
+      {children}
+    </FadeContext.Provider>
+  );
+};
+
+const Fade = ({
+  className,
+  name,
+  ...restProps
+}: { name: string } & ComponentProps<"div">) => {
+  const transitionDurationMs = 500;
+  const [{ status, isMounted }, toggle] = useTransition({
+    timeout: transitionDurationMs,
+    mountOnEnter: true,
+    unmountOnExit: true,
+    preEnter: true,
+  });
+
+  const { targetFade, currentFade, setMountedFade } = useContext(FadeContext);
+
+  useEffect(() => {
+    if (isMounted && targetFade !== name) {
+      toggle(false);
+    }
+  }, [isMounted, targetFade, name, toggle]);
+
+  useEffect(() => {
+    return () => {
+      if (isMounted && targetFade !== undefined) setMountedFade?.(targetFade);
+    };
+  }, [isMounted, targetFade, setMountedFade]);
+
+  useEffect(() => {
+    if (currentFade === name) {
+      requestAnimationFrame(() => toggle(true));
+    }
+  }, [currentFade, name, toggle]);
+
+  if (!isMounted) return null;
+
+  return (
+    <div
+      style={{ transitionDuration: `${transitionDurationMs}ms` }}
+      className={classNames([
+        className,
+        styles.fader,
+        ["preEnter", "exiting"].includes(status) && styles.fader__hidden,
+      ])}
+      {...restProps}
+    />
+  );
+};
 
 const classNames = (classNames: (string | boolean | null | undefined)[]) => {
   return classNames.filter(Boolean).join(" ");
